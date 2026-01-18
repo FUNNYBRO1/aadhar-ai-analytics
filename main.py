@@ -2,7 +2,7 @@ import os
 import sys
 from dotenv import load_dotenv
 
-# Pehle env load karna zaroori hai
+# Pehle env load karna 
 load_dotenv()
 
 # Imports from src folder
