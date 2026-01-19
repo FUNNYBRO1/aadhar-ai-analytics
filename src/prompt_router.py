@@ -1,50 +1,30 @@
-import os
-import google.generativeai as genai
-from dotenv import load_dotenv
+# src/prompt_router.py
 
-load_dotenv()
-API_KEY = os.getenv("GEMINI_API_KEY")
-
-# SDK Configure karein
-genai.configure(api_key=API_KEY)
-
-PROBLEMS = [
-    "Age-wise Aadhaar Coverage Imbalance",
-    "Regional Youth Population Pressure",
-    "Adult Enrollment Saturation Mapping",
-    "Temporal Growth Pattern Analysis",
-    "District-Level Demographic Disparity",
-    "Pincode-Level Coverage Gaps",
-    "Youth-to-Adult Ratio Risk Zones",
-    "State-wise Demographic Concentration",
-    "Longitudinal Stability Assessment",
-    "Resource Allocation Optimization"
-]
+import re
 
 def route_prompt(user_prompt: str):
-    try:
-        # Aapki list ke mutabik exact model name
-        model = genai.GenerativeModel('models/gemini-2.5-flash')
-        
-        system_instruction = f"""
-        Instructions: You are a data classifier. 
-        List of Categories: {', '.join(PROBLEMS)}
-        
-        Task: Map the user query to one or more categories from the list above.
-        Rule: Return ONLY the exact category names separated by commas.
-        """
-        
-        response = model.generate_content(f"{system_instruction}\nUser Query: {user_prompt}")
-        
-        if not response.text:
-            return []
-            
-        text = response.text.strip()
-        
-        # Valid labels ko extract karein
-        mapped = [p.strip() for p in text.split(",") if p.strip() in PROBLEMS]
-        return mapped
+    p = user_prompt.lower()
 
-    except Exception as e:
-        print(f"Gemini API Error: {e}")
-        return []
+    result = {
+        "top_n": None,
+        "topic": None
+    }
+
+    # -------- TOP N (top 1–10) --------
+    match = re.search(r"top\s*(\d+)", p)
+    if match:
+        n = int(match.group(1))
+        if 1 <= n <= 10:
+            result["top_n"] = n
+
+    # -------- TOPIC DETECTION --------
+    if any(x in p for x in ["adult", "17", "above"]):
+        result["topic"] = "adult"
+
+    elif any(x in p for x in ["youth", "child", "5-17"]):
+        result["topic"] = "youth"
+
+    else:
+        result["topic"] = "total"
+
+    return result

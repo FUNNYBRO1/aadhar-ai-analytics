@@ -1,11 +1,11 @@
-import os
-import google.generativeai as genai
-from dotenv import load_dotenv
+from google import genai
+import streamlit as st
 
-load_dotenv()
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+# Secrets se key uthayein
+api_key = st.secrets["GEMINI_API_KEY"]
+client = genai.Client(api_key=api_key)
 
-print("Listing available models for your API key...")
-for m in genai.list_models():
-    if 'generateContent' in m.supported_generation_methods:
-        print(f"Model Name: {m.name}")
+# Saare available models print karein
+print("Available Gemini Models:")
+for model in client.models.list():
+    print(f"- {model.name}")
