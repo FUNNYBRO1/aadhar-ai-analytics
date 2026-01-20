@@ -42,13 +42,15 @@ Return ONLY valid JSON. No explanation. No markdown.
 
 JSON format:
 {
+  "dataset": "default | biometric | enrolment",
   "level": "state | district",
   "state": "state name or null",
   "age_group": "adult | youth | total",
   "top_n": number,
-  "analysis_type": "enrolment | saturation | distribution",
+  "analysis_type": "enrolment | biometric | saturation",
   "graph_title": "clear human readable title"
 }
+
 
 Rules:
 - If districts are mentioned → level = district
@@ -56,6 +58,10 @@ Rules:
 - If number missing → top_n = 5
 - If age unclear → total
 - Graph title must be meaningful
+- If query mentions biometric → dataset = biometric
+- If query mentions enrolment or enrollment → dataset = enrolment
+- Otherwise → dataset = default
+
 """
 
 
@@ -113,6 +119,10 @@ def _normalize(parsed: Dict) -> Dict:
     parsed.setdefault("state", None)
     parsed.setdefault("age_group", "total")
     parsed.setdefault("analysis_type", "enrolment")
+    parsed.setdefault("dataset", "default")
+
+    if parsed["dataset"] not in ["default", "biometric", "enrolment"]:
+        parsed["dataset"] = "default"
 
     # top_n
     try:

@@ -10,6 +10,11 @@ from src.visualizer import generate_graph
 from src.ai.gemini_parser import gemini_parse_prompt
 from src.ai.gemini_insight import generate_ai_insight
 
+DATA_FILES = {
+    "default": "data/input/aadhar_clean.csv",
+    "biometric": "data/input/aadhar_biom.csv",
+    "enrolment": "data/input/aadhar_enroll.csv"
+}
 
 # ======================================================
 # STATE NAME STANDARDIZATION
@@ -171,6 +176,13 @@ if user_query:
         parsed = route_prompt(user_query)
         parser_used = "fallback"
 
+    # ---------------- DATASET SELECTION ----------------
+    dataset_key = parsed.get("dataset", "default")
+    data_path = DATA_FILES.get(dataset_key, DATA_FILES["default"])
+
+    df = load_data(data_path)
+
+    # ---------------- PARSED VALUES ----------------
     top_n = parsed.get("top_n", 5)
     level = parsed.get("level", "state")
     age_group = parsed.get("age_group", "total")
@@ -226,7 +238,8 @@ if user_query:
                 "level": analysis_level,
                 "age_group": age_group,
                 "state": parsed.get("state"),
-                "parser": parser_used
+                "parser": parser_used,
+                "dataset": dataset_key
             }
         )
 
@@ -240,9 +253,10 @@ if user_query:
 # ======================================================
 # ABOUT SECTION
 # ======================================================
-about_path = "assets/html/about.html"
-
 st.divider()
+st.markdown("##About us")
+
+about_path = "assets/html/about.html"
 
 if os.path.exists(about_path):
     with open(about_path, "r", encoding="utf-8") as f:
@@ -251,5 +265,7 @@ if os.path.exists(about_path):
     components.html(
         about_html,
         height=650,
-        scrolling=False
+        scrolling=True
     )
+else:
+    st.error("about.html not found at assets/html/")
