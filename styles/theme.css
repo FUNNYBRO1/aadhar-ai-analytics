@@ -1,0 +1,149 @@
+/* ===============================
+   HERO BACKGROUND IMAGE
+================================ */
+.hero-bg {
+    background-image: url("../assets/images/about_bg.png");
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    padding: 60px 40px;
+    margin-top: 30px;
+}
+
+/* ===============================
+   GLOBAL BACKGROUND
+================================ */
+html, body, [data-testid="stApp"] {
+    background-color: #0b0f19;
+    color: #e5e7eb;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* ===============================
+   REMOVE STREAMLIT DEFAULT PADDING
+================================ */
+.block-container {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+/* ===============================
+   HEADINGS
+================================ */
+h1, h2, h3, h4 {
+    color: #f9fafb;
+    font-weight: 600;
+}
+
+p, label {
+    color: #9ca3af;
+}
+
+/* ===============================
+   INPUTS (TEXT / MULTISELECT)
+================================ */
+input, textarea {
+    background-color: #111827 !important;
+    color: #e5e7eb !important;
+    border-radius: 10px !important;
+    border: 1px solid #1f2937 !important;
+}
+
+[data-baseweb="select"] {
+    background-color: #111827 !important;
+    border-radius: 10px !important;
+}
+
+[data-baseweb="select"] * {
+    color: #e5e7eb !important;
+}
+
+/* ===============================
+   RADIO BUTTONS
+================================ */
+div[role="radiogroup"] {
+    background: #111827;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+/* ===============================
+   METRIC CARDS (TOP CARDS)
+================================ */
+[data-testid="stMetric"] {
+    background: linear-gradient(
+        135deg,
+        rgba(79,124,255,0.15),
+        rgba(155,92,255,0.15)
+    );
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+[data-testid="stMetricLabel"] {
+    color: #9ca3af;
+}
+
+[data-testid="stMetricValue"] {
+    color: #f9fafb;
+    font-size: 1.6rem;
+}
+
+/* ===============================
+   DATAFRAME
+================================ */
+[data-testid="stDataFrame"] {
+    background-color: #111827;
+    border-radius: 12px;
+    border: 1px solid #1f2937;
+}
+
+/* ===============================
+   INFO / SUCCESS BOX
+================================ */
+[data-testid="stAlert"] {
+    background-color: #111827;
+    border-left: 4px solid #4f7cff;
+    color: #e5e7eb;
+}
+
+/* ===============================
+   DIVIDER
+================================ */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        #1f2937,
+        transparent
+    );
+}
+
+/* ===============================
+   SCROLLBAR (OPTIONAL)
+================================ */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4f7cff;
+    border-radius: 10px;
+}
+/* ===============================
+   GRADIENT TEXT (PURPLE + BLUE)
+================================ */
+.gradient-text {
+    background: linear-gradient(90deg, #4f7cff, #9b5cff);
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+
+    font-weight: 700;
+}
+
