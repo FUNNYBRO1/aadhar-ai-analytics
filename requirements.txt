@@ -5,3 +5,4 @@ seaborn
 google-genai
 streamlit
 python-dotenv
+altair==4.2.2
